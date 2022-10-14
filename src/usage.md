@@ -1,68 +1,71 @@
-# Usage
+# 使用
 
-(Currently not fully documented, see the [keymappings](./keymap.md) list for more.)
+（目前尚未完整记录，更多信息见 [按键映射](./keymap.md)。）
 
-See [tutor](https://github.com/helix-editor/helix/blob/master/runtime/tutor) (accessible via `hx --tutor` or `:tutor`) for a vimtutor-like introduction.
+类似于 vimtutor 的介绍见 [tutor] （可通过 `hx --tutor` 或 `:tutor` 访问）。
 
-## Registers
+[tutor]: https://github.com/helix-editor/helix/blob/master/runtime/tutor
 
-Vim-like registers can be used to yank and store text to be pasted later. Usage is similar, with `"` being used to select a register:
+## 寄存器
 
-- `"ay` - Yank the current selection to register `a`.
-- `"op` - Paste the text in register `o` after the selection.
+使用类似 Vim 的寄存器 (registers) 来拖拽 (yank) 和存储文本，以便稍后粘贴。使用方法也与 Vim 类似，按 `"` 来选择一个寄存器：
 
-If there is a selected register before invoking a change or delete command, the selection will be stored in the register and the action will be carried out:
+* `"ay`：将当前选择拖到寄存器 `a`
+* `"op`：在选择后粘贴寄存器 `o` 中的文本
 
-- `"hc` - Store the selection in register `h` and then change it (delete and enter insert mode).
-- `"md` - Store the selection in register `m` and delete it.
+如果在调用修改或删除文本命令之前选择了寄存器，则将选择的内容存储在寄存器中，并执行操作：
 
-### Special Registers
+* `"hc`：将所选的文本存储在寄存器 `h` 中，然后修改所选的文本（即删除文本并进入插入模式）
+* `"md`：将所选文本存储在寄存器 `m` 中，并删除所选的文本
 
-| Register character | Contains              |
-| ---                | ---                   |
-| `/`                | Last search           |
-| `:`                | Last executed command |
-| `"`                | Last yanked text      |
-| `_`                | Black hole            |
+### 特殊寄存器
 
-> There is no special register for copying to system clipboard, instead special commands and keybindings are provided. See the [keymap](keymap.md#space-mode) for the specifics.
-> The black hole register works as a no-op register, meaning no data will be written to / read from it.
+| 寄存器字符 | 内容           |
+|------------|----------------|
+| `/`        | 上次搜索的文本 |
+| `:`        | 上次执行的命令 |
+| `"`        | 上次拖拽的文本 |
+| `_`        | 黑洞           |
 
-## Surround
+> Helix 没有用于复制到系统剪贴板的特殊寄存器，而是提供了特殊的命令和按键绑定。详细信息见 [space mode](keymap.md#space-mode)。
+>
+> 黑洞寄存器用作无操作 (no-op) 寄存器，这意味着不会向其写入数据或从中读取数据。
 
-Functionality similar to [vim-surround](https://github.com/tpope/vim-surround) is built into
-helix. The keymappings have been inspired from [vim-sandwich](https://github.com/machakann/vim-sandwich):
+## 环绕
+
+[vim-surround]: https://github.com/tpope/vim-surround 
+[vim-sandwich]: https://github.com/machakann/vim-sandwich
+
+类似于 [vim-surround] 的功能已被内置到 Helix 中。按键映射的灵感来自 [vim-sandwich]：
 
 ![surround demo](https://user-images.githubusercontent.com/23398472/122865801-97073180-d344-11eb-8142-8f43809982c6.gif)
 
-- `ms` - Add surround characters
-- `mr` - Replace surround characters
-- `md` - Delete surround characters
+* `ms`：添加环绕字符，作用于选定内容，因此先选择文本，然后按 `ms<char>`
+* `mr`：替换环绕字符，用于找到的最接近的配对，所以并不需要选择文本；使用计数[^counts]作用于外层配对
+* `md`：删除环绕字符，使用与 `mr` 类似
 
-`ms` acts on a selection, so select the text first and use `ms<char>`. `mr` and `md` work
-on the closest pairs found and selections are not required; use counts to act in outer pairs.
+[^counts]: 译者注：比如 `[[{aaa}]]` 光标在 a 上，按 `2mr])` 把第 2 层 `]` 替换成 `)`，得到 `([{aaa}])`。
 
-It can also act on multiple selections (yay!). For example, to change every occurrence of `(use)` to `[use]`:
+它还可以作用于多光标选择（耶！）。例如，将每次出现的 `(use)` 改为 `[use]`：
 
-- `%` to select the whole file
-- `s` to split the selections on a search term
-- Input `use` and hit Enter
-- `mr([` to replace the parens with square brackets
+* 按 `%` 选择整个文件
+* 再按 `s` 根据搜索词拆分并选中文本
+* 输入 `use` 并按 `Enter`
+* 按 `mr([` 用方括号替换圆括号
 
-Multiple characters are currently not supported, but planned.
+当前不支持多个字符，但计划支持。
 
-## Syntax-tree Motions
+## 基于语法树移动选区
 
-`Alt-p`, `Alt-o`, `Alt-i`, and `Alt-n` (or `Alt` and arrow keys) move the primary
-selection according to the selection's place in the syntax tree. Let's walk
-through an example to get familiar with them. Many languages have a syntax like
-so for function calls:
+按 `Alt-p`、`Alt-o`、`Alt-i` 和 `Alt-n`（或 `Alt` 和四个方向键之一）可根据语法树的位置来移动选择区域。
+
+让我们通过一个示例来熟悉它们。许多语言对于函数调用都有类似这样的语法：
 
 ```
 func(arg1, arg2, arg3)
 ```
 
-A function call might be parsed by tree-sitter into a tree like the following.
+函数调用可能会被 tree-sitter 解析为如下语法树：
 
 ```tsq
 (call
@@ -74,8 +77,7 @@ A function call might be parsed by tree-sitter into a tree like the following.
       (identifier)))     ; arg3
 ```
 
-Use `:tree-sitter-subtree` to view the syntax tree of the primary selection. In
-a more intuitive tree format:
+使用 `:tree-sitter-subtree` 查看所选的语法树。用更直观的树形结构表示成：
 
 ```
             ┌────┐
@@ -93,77 +95,66 @@ a more intuitive tree format:
    └──────────┘  └──────────┘  └──────────┘
 ```
 
-Say we have a selection that wraps `arg1`. The selection is on the `arg1` leaf
-in the tree above.
+假设我们光标放在 `arg1` 上，那么就选择了上面树中的 `arg1` 叶节点上（方括号表示选区）：
 
 ```
 func([arg1], arg2, arg3)
 ```
 
-Using `Alt-n` would select the next sibling in the syntax tree: `arg2`.
+按 `Alt-n` （或者 `Alt-→`） 将选择语法树中的下一个同级 (sibling) `arg2`：
 
 ```
 func(arg1, [arg2], arg3)
 ```
 
-While `Alt-o` would expand the selection to the parent node. In the tree above we
-can see that we would select the `arguments` node.
+而按 `Alt-o` （或 `Alt-↑`） 会将选择扩展到父节点。在上面的树中，我们将选择 `arguments` 节点。
 
 ```
 func[(arg1, arg2, arg3)]
 ```
 
-There is also some nuanced behavior that prevents you from getting stuck on a
-node with no sibling. If we have a selection on `arg1`, `Alt-p` would bring us
-to the previous child node. Since `arg1` doesn't have a sibling to its left,
-though, we climb the syntax tree and then take the previous selection. So
-`Alt-p` will move the selection over to the "func" `identifier`.
+还有一些细微差别的行为可以防止你停留在没有同级节点的节点上。如果选择 `arg1`，那么按 `Alt-p` （或 `Alt-←`）
+将移动到上一个子节点。但是，由于 `arg1` 在其左侧没有同级项，所以往语法树父级走，然后选择前一个的节点。因此，`Alt-p`
+最终把选区移到 `func` 这个标识符上。
 
 ```
 [func](arg1, arg2, arg3)
 ```
 
-## Textobjects
+## 文本对象
 
 ![textobject-demo](https://user-images.githubusercontent.com/23398472/124231131-81a4bb00-db2d-11eb-9d10-8e577ca7b177.gif)
 ![textobject-treesitter-demo](https://user-images.githubusercontent.com/23398472/132537398-2a2e0a54-582b-44ab-a77f-eb818942203d.gif)
 
-- `ma` - Select around the object (`va` in Vim, `<alt-a>` in Kakoune)
-- `mi` - Select inside the object (`vi` in Vim, `<alt-i>` in Kakoune)
+上面的演示分别使用以下按键来选择文本对象 (textobject)：
 
-| Key after `mi` or `ma` | Textobject selected      |
-| ---                    | ---                      |
-| `w`                    | Word                     |
-| `W`                    | WORD                     |
-| `p`                    | Paragraph                |
-| `(`, `[`, `'`, etc     | Specified surround pairs |
-| `m`                    | Closest surround pair    |
-| `f`                    | Function                 |
-| `c`                    | Class                    |
-| `a`                    | Argument/parameter       |
-| `o`                    | Comment                  |
-| `t`                    | Test                     |
+* `ma` 在对象周围选择 （Vim 中为 `va`，Kakoune 中为 `<alt-a>`）
+* `mi` 在对象内部选择 （Vim 中为 `vi`，Kakoune 中为 `<alt-i>`）
 
-> NOTE: `f`, `c`, etc need a tree-sitter grammar active for the current
-document and a special tree-sitter query file to work properly. [Only
-some grammars][lang-support] currently have the query file implemented.
-Contributions are welcome!
+| 在 `mi` 或 `ma` 之后按 | 选择的文本对象       |
+|------------------------|----------------------|
+| `w`                    | 由空格或符号分隔的词 |
+| `W`                    | 由空格分隔的词       |
+| `p`                    | 段落                 |
+| `(`、`[`、`'` 等       | 指定的环绕配对符号   |
+| `m`                    | 最近的环绕配对符号   |
+| `f`                    | 函数                 |
+| `c`                    | 类                   |
+| `a`                    | 参数                 |
+| `o`                    | 注释                 |
+| `t`                    | 测试                 |
 
-## Tree-sitter Textobject Based Navigation
+> 注意：`f`、`c` 等功能需要当前文档的 tree-sitter 语法和特殊的 tree-sitter 查询文件才能正常工作。目前只有
+> [一些语法](./lang-support.md) 有查询文件。欢迎贡献！
 
-Navigating between functions, classes, parameters, etc is made
-possible by leveraging tree-sitter and textobjects queries. For
-example to move to the next function use `]f`, to move to previous
-class use `[c`, and so on.
+## 基于文本对象的导航
 
-![tree-sitter-nav-demo][tree-sitter-nav-demo]
+通过 tree-sitter 和文本对象查询，可以在函数、类、参数等之间导航。
 
-See the [unimpaired][unimpaired-keybinds] section of the keybind
-documentation for the full reference.
+例如，使用 `]f` 移动到下一个函数，使用 `[c` 移动到上一个类，等等。
 
-> NOTE: This feature is dependent on tree-sitter based textobjects
-and therefore requires the corresponding query file to work properly.
+![tree-sitter-nav-demo](https://user-images.githubusercontent.com/23398472/152332550-7dfff043-36a2-4aec-b8f2-77c13eb56d6f.gif)
 
-[lang-support]: ./lang-support.md
-[unimpaired-keybinds]: ./keymap.md#unimpaired
-[tree-sitter-nav-demo]: https://user-images.githubusercontent.com/23398472/152332550-7dfff043-36a2-4aec-b8f2-77c13eb56d6f.gif
+对此的完整信息请参考 [unimpaired](./keymap.md#unimpaired)。
+
+> 注意：此功能依赖于 tree-sitter 的文本对象，因此需要相应的查询文件才能正常工作。
