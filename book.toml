@@ -5,9 +5,9 @@ multilingual = false
 src = "src"
 title = "Helix Book 中文翻译"
 
-[preprocessor.theme]
-pagetoc = true
-sidebar-width = "250px"
+# [preprocessor.theme]
+# pagetoc = true
+# sidebar-width = "250px"
 
 [output.html]
 default-theme = "colibri"
