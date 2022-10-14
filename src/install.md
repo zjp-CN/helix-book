@@ -1,14 +1,14 @@
-# Installation
+# 安装
 
-We provide pre-built binaries on the [GitHub Releases page](https://github.com/helix-editor/helix/releases).
+GitHub 发布页面上[提供了](https://github.com/helix-editor/helix/releases)预构建的二进制文件。
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/helix.svg)](https://repology.org/project/helix/versions)
 
 ## OSX
 
-Helix is available in homebrew-core:
+Helix 在 homebrew-core 中可用：
 
-```
+```bash
 brew install helix
 ```
 
@@ -16,92 +16,98 @@ brew install helix
 
 ### NixOS
 
-A [flake](https://nixos.wiki/wiki/Flakes) containing the package is available in
-the project root. The flake can also be used to spin up a reproducible development
-shell for working on Helix with `nix develop`.
+[flake]: https://nixos.wiki/wiki/Flakes
+[Cachix]: https://www.cachix.org/
+[Cachix cli]: https://docs.cachix.org/installation
 
-Flake outputs are cached for each push to master using
-[Cachix](https://www.cachix.org/). The flake is configured to
-automatically make use of this cache assuming the user accepts
-the new settings on first use.
+在项目根目录中提供了包含 Helix 包的 [flake]。它还重现开发 shell 环境，用来与 `nix develop` 一起在 Helix 上工作。
 
-If you are using a version of Nix without flakes enabled you can
-[install Cachix cli](https://docs.cachix.org/installation); `cachix use helix` will
-configure Nix to use cached outputs when possible.
+每次使用 [Cachix] 推送到 master 时，flake 的输出都被缓存。如果使用者在第一次使用时接受新设置，则 flake 被配置为自动使用该缓存。
+
+如果你使用的 Nix 版本没有启用 flake，则可以安装 [Cachix cli]；`cachix use helix` 会将 Nix 配置为尽可能使用缓存输出。
 
 ### Arch Linux
 
-Releases are available in the `community` repository.
+`community` 仓库中可用。构建 master 的 AUR 上也提供了 [helix-git] 包。
 
-A [helix-git](https://aur.archlinux.org/packages/helix-git/) package is also available on the AUR, which builds the master branch.
+[helix-git]: https://aur.archlinux.org/packages/helix-git
 
 ### Fedora Linux
 
-You can install the COPR package for Helix via
+通过以下方式安装 Helix 的 COPR 包
 
-```
+```bash
 sudo dnf copr enable varlad/helix
 sudo dnf install helix
 ```
 
 ### Void Linux
 
-```
+```bash
 sudo xbps-install helix
 ```
 
-## Build from source
+## 从源代码构建
 
-```
+```bash
 git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term
 ```
 
-This will install the `hx` binary to `$HOME/.cargo/bin`.
+这会将 `hx` 二进制文件安装到 `$HOME/.cargo/bin`。
 
-Helix also needs its runtime files so make sure to copy/symlink the `runtime/` directory into the
-config directory (for example `~/.config/helix/runtime` on Linux/macOS). This location can be overridden
-via the `HELIX_RUNTIME` environment variable.
+Helix 还需要它的运行时文件，因此请确保将 `runtime/` 目录复制或者 symlink 到配置目录。例如使用如下命令：
 
-| OS                  | command                                          |
+| OS                  | 命令                                             |
 | ------------------- | ------------------------------------------------ |
 | windows(cmd.exe)    | `xcopy /e /i runtime %AppData%/helix/runtime`    |
 | windows(powershell) | `xcopy /e /i runtime $Env:AppData\helix\runtime` |
 | linux/macos         | `ln -s $PWD/runtime ~/.config/helix/runtime`     |
 
-To use Helix in desktop environments that supports [XDG desktop menu](https://specifications.freedesktop.org/menu-spec/menu-spec-latest.html), including Gnome and KDE, copy the provided `.desktop` file to the correct folder:
+还可以通过 `HELIX_RUNTIME` 环境变量覆盖此位置。
+
+要在支持 [XDG 桌面菜单][XDG desktop menu]的桌面环境（包括 Gnome 和 KDE）中使用 Helix，请将提供的 `.desktop` 文件复制到正确的文件夹中：
+
+[XDG desktop menu]: https://specifications.freedesktop.org/menu-spec/menu-spec-latest.html
 
 ```bash
 cp contrib/Helix.desktop ~/.local/share/applications
 ```
 
-To use another terminal than the default, you will need to modify the `.desktop` file. For example, to use `kitty`:
+要使用默认终端之外的其他终端，你需要修改 `.desktop` 文件。例如，使用 `kitty`：
 
 ```bash
 sed -i "s|Exec=hx %F|Exec=kitty hx %F|g" ~/.local/share/applications/Helix.desktop
 sed -i "s|Terminal=true|Terminal=false|g" ~/.local/share/applications/Helix.desktop
 ```
 
-Please note: there is no icon for Helix yet, so the system default will be used.
+请注意：Helix 还没有图标，所以将使用系统默认设置。
 
-## Finishing up the installation
+## 完成安装
 
-To make sure everything is set up as expected you should finally run the helix healthcheck via
+为了确保一切都按预期进行，最后你应该运行检查命令：
 
-```
+```bash
 hx --health
 ```
 
-For more information on the information displayed in the health check results refer to [Healthcheck](https://github.com/helix-editor/helix/wiki/Healthcheck).
+关于检查结果中显示的信息的详细信息，见 [状况检查][healthcheck]。
 
-### Building tree-sitter grammars
+[healthcheck]: https://github.com/helix-editor/helix/wiki/Healthcheck
 
-Tree-sitter grammars must be fetched and compiled if not pre-packaged.
-Fetch grammars with `hx --grammar fetch` (requires `git`) and compile them
-with `hx --grammar build` (requires a C++ compiler).
+### 构建 tree-sitter 语法
 
-### Installing language servers
+如果没有预先打包 tree-sitter 语法工具[^tree-sitter]，则必须获取和和编译它。
 
-Language servers can optionally be installed if you want their features (auto-complete, diagnostics etc.).
-Follow the [instructions on the wiki page](https://github.com/helix-editor/helix/wiki/How-to-install-the-default-language-servers) to add your language servers of choice.
+使用 `hx --grammar fetch`（需要 `git`）获取语法，并使用 `hx --grammar build`（需要 C++ 编译器）编译它们。
+
+[^tree-sitter]: 译者注：除非你开发 tree-sitter，否则建议你从 github 的发布页面下载预编译的包，然后从中取出 `runtime/`
+文件夹，来避免构建 tree-sitter。此外，当源码构建 Helix 时，使用环境变量 `HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1` 来避免构建 tree-sitter。
+
+### 安装语言服务器
+
+如果你需要自动补全、代码诊断等功能，则安装语言服务器。按照 Hexlix Wiki 页面上的说明[添加语言服务器][language-servers]。
+
+[language-servers]: https://github.com/helix-editor/helix/wiki/How-to-install-the-default-language-servers
+
