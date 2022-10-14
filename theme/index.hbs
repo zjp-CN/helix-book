@@ -35,6 +35,8 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="{{ path_to_root }}FontAwesome/css/font-awesome.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&display=swap" rel="stylesheet">
         {{#if copy_fonts}}
         <link rel="stylesheet" href="{{ path_to_root }}fonts/fonts.css">
         {{/if}}
@@ -127,6 +129,7 @@
                             <li role="none"><button role="menuitem" class="theme" id="coal">{{ theme_option "Coal" }}</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">{{ theme_option "Navy" }}</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">{{ theme_option "Ayu" }}</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="colibri">{{ theme_option "Colibri" }}</button></li>
                         </ul>
                         {{#if search_enabled}}
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
@@ -148,19 +151,13 @@
                             <i id="git-repository-button" class="fa {{git_repository_icon}}"></i>
                         </a>
                         {{/if}}
-                        {{#if git_repository_edit_url}}
-                        <a href="{{git_repository_edit_url}}" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
-                        </a>
-                        {{/if}}
-
                     </div>
                 </div>
 
                 {{#if search_enabled}}
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -181,6 +178,18 @@
 
                 <div id="content" class="content">
                     <main>
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
                         <!-- Page table of contents -->
                         <div class="sidetoc"><nav class="pagetoc"></nav></div>
 

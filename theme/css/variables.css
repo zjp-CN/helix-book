@@ -16,6 +16,30 @@
   }
 }
 
+@media only screen and (max-width:1439px) {
+ :root{
+    --content-max-width: 98%;
+  }
+}
+
+@media only screen and (max-width:1439px) {
+ :root{
+    --content-max-width: 98%;
+  }
+}
+
+@media only screen and (max-width:1439px) {
+ :root{
+    --content-max-width: 98%;
+  }
+}
+
+@media only screen and (max-width:1439px) {
+ :root{
+    --content-max-width: 98%;
+  }
+}
+
 /* Themes */
 
 .ayu {
@@ -24,7 +48,7 @@
 
     --sidebar-bg: #14191f;
     --sidebar-fg: #c8c9db;
-    --sidebar-non-existant: #5c6773;
+    --sidebar-non-existent: #5c6773;
     --sidebar-active: #ffb454;
     --sidebar-spacer: #2d334f;
 
@@ -64,7 +88,7 @@
 
     --sidebar-bg: #292c2f;
     --sidebar-fg: #a1adb8;
-    --sidebar-non-existant: #505254;
+    --sidebar-non-existent: #505254;
     --sidebar-active: #3473ad;
     --sidebar-spacer: #393939;
 
@@ -104,7 +128,7 @@
 
     --sidebar-bg: #fafafa;
     --sidebar-fg: hsl(0, 0%, 0%);
-    --sidebar-non-existant: #aaaaaa;
+    --sidebar-non-existent: #aaaaaa;
     --sidebar-active: #1f1fff;
     --sidebar-spacer: #f4f4f4;
 
@@ -144,7 +168,7 @@
 
     --sidebar-bg: #282d3f;
     --sidebar-fg: #c8c9db;
-    --sidebar-non-existant: #505274;
+    --sidebar-non-existent: #505274;
     --sidebar-active: #2b79a2;
     --sidebar-spacer: #2d334f;
 
@@ -184,7 +208,7 @@
 
     --sidebar-bg: #3b2e2a;
     --sidebar-fg: #c8c9db;
-    --sidebar-non-existant: #505254;
+    --sidebar-non-existent: #505254;
     --sidebar-active: #e69f67;
     --sidebar-spacer: #45373a;
 
@@ -225,7 +249,7 @@
 
         --sidebar-bg: #292c2f;
         --sidebar-fg: #a1adb8;
-        --sidebar-non-existant: #505254;
+        --sidebar-non-existent: #505254;
         --sidebar-active: #3473ad;
         --sidebar-spacer: #393939;
 
@@ -258,4 +282,93 @@
         --searchresults-li-bg: #2b2b2f;
         --search-mark-bg: #355c7d;
     }
+}
+
+.colibri {
+    --bg: #3b224c;
+    --fg: #bcbdd0;
+    --heading-fg: #fff;
+
+    --sidebar-bg: #281733;
+    --sidebar-fg: #c8c9db;
+    --sidebar-non-existent: #505274;
+    --sidebar-active: #a4a0e8;
+    --sidebar-spacer: #2d334f;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --icons: #737480;
+    --icons-hover: #b7b9cc;
+
+    /* --links: #a4a0e8; */
+    --links: #ECCDBA;
+
+    --inline-code-color: hsl(48.7, 7.8%, 70%);
+
+    --theme-popup-bg: #161923;
+    --theme-popup-border: #737480;
+    --theme-hover: rgba(0,0,0, .2);
+
+    --quote-bg: #281733;
+    --quote-border: hsl(226, 15%, 22%);
+
+    --table-border-color: hsl(226, 23%, 76%);
+    --table-header-bg: hsla(226, 23%, 31%, 0);
+    --table-alternate-bg: hsl(226, 23%, 14%);
+    --table-border-line: hsla(201deg, 20%, 92%, 0.2);
+
+    --searchbar-border-color: #aaa;
+    --searchbar-bg: #aeaec6;
+    --searchbar-fg: #000;
+    --searchbar-shadow-color: #aaa;
+    --searchresults-header-fg: #5f5f71;
+    --searchresults-border-color: #5c5c68;
+    --searchresults-li-bg: #242430;
+    --search-mark-bg: #a2cff5;
+}
+
+.colibri {
+/*
+    --bg: #ffffff;
+    --fg: #452859;
+    --fg: #5a5977;
+    --heading-fg: #281733;
+
+    --sidebar-bg: #281733;
+    --sidebar-fg: #c8c9db;
+    --sidebar-non-existent: #505274;
+    --sidebar-active: #a4a0e8;
+    --sidebar-spacer: #2d334f;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --icons: #737480;
+    --icons-hover: #b7b9cc;
+
+    --links: #6F44F0;
+
+    --inline-code-color: #a39e9b;
+
+    --theme-popup-bg: #161923;
+    --theme-popup-border: #737480;
+    --theme-hover: rgba(0,0,0, .2);
+
+    --quote-bg: rgba(0, 0, 0, 0);
+    --quote-border: hsl(226, 15%, 75%);
+
+    --table-border-color: #5a5977;
+    --table-border-color: hsl(201deg 10% 67%);
+    --table-header-bg: hsl(0, 0%, 100%);
+    --table-alternate-bg: hsl(0, 0%, 97%);
+    --table-border-line: hsl(201deg, 20%, 92%);
+
+    --searchbar-border-color: #aaa;
+    --searchbar-bg: #aeaec6;
+    --searchbar-fg: #000;
+    --searchbar-shadow-color: #aaa;
+    --searchresults-header-fg: #5f5f71;
+    --searchresults-border-color: #5c5c68;
+    --searchresults-li-bg: #242430;
+    --search-mark-bg: #a2cff5;
+*/
 }

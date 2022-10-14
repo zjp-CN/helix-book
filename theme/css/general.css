@@ -7,13 +7,18 @@
     font-size: 70%;
 }
 
+/* TODO: replace with self hosted fonts */
+
 html {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Inter", sans-serif;
     color: var(--fg);
     background-color: var(--bg);
     text-size-adjust: none;
-    -webkit-text-size-adjust: none;
 }
+
+/* @supports (font-variation-settings: normal) { */
+/*   html { font-family: 'Inter var', sans-serif; } */
+/* } */
 
 body {
     margin: 0;
@@ -88,15 +93,50 @@ h6:target::before {
     margin-right: 2%;
     max-width: var(--content-max-width);
 }
+
+
+/* 2 1.75 1.5 1.25 1 .875 */
+
+.content h1 { font-size: 2em }
+.content h2 { font-size: 1.75em }
+.content h3 { font-size: 1.5em }
+.content h4 { font-size: 1.25em }
+.content h5 { font-size: 1em }
+.content h6 { font-size: .875em }
+
+.content h1, .content h2, .content h3, .content h4 {
+    font-weight: 500;
+    margin-top: 1.275em;
+    margin-bottom: .875em;
+}
+.content p, .content ol, .content ul, .content table {
+    margin-top: 0;
+    margin-bottom: .875em;
+}
+
+.content ul li {
+margin-bottom: .25rem;
+}
+.content ul {
+    list-style-type: square;
+}
+.content ul ul, .content ol ul {
+    margin-bottom: .5rem;
+}
+.content li p {
+    margin-bottom: .5em;
+}
+
 .content p { line-height: 1.45em; }
 .content ol { line-height: 1.45em; }
 .content ul { line-height: 1.45em; }
 .content a { text-decoration: none; }
 .content a:hover { text-decoration: underline; }
-.content img, .content video { max-width: 100%; }
+.content img { max-width: 100%; }
 .content .header:link,
 .content .header:visited {
     color: var(--fg);
+    color: var(--heading-fg);
 }
 .content .header:link,
 .content .header:visited:hover {
@@ -106,10 +146,11 @@ h6:target::before {
 table {
     margin: 0 auto;
     border-collapse: collapse;
+    width: 100%;
 }
 table td {
-    padding: 3px 20px;
-    border: 1px var(--table-border-color) solid;
+    padding: .75rem;
+    width: auto;
 }
 table thead {
     background: var(--table-header-bg);
@@ -119,24 +160,34 @@ table thead td {
     border: none;
 }
 table thead th {
-    padding: 3px 20px;
+    padding: .75rem;
+    text-align: left;
+    font-weight: 500;
+    line-height: 1.5;
+    width: auto;
 }
 table thead tr {
-    border: 1px var(--table-header-bg) solid;
+    border-bottom: 2px var(--table-border-color) solid;
+}
+table tbody tr {
+    border-bottom: 1px var(--table-border-line) solid;
 }
 /* Alternate background colors for rows */
 table tbody tr:nth-child(2n) {
-    background: var(--table-alternate-bg);
+    /* background: var(--table-alternate-bg); */
 }
 
 
 blockquote {
-    margin: 20px 0;
-    padding: 0 20px;
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
     color: var(--fg);
+    opacity: .9;
     background-color: var(--quote-bg);
-    border-top: .1em solid var(--quote-border);
-    border-bottom: .1em solid var(--quote-border);
+    border-left: 4px solid var(--quote-border);
+}
+blockquote *:last-child {
+  margin-bottom: 0;
 }
 
 

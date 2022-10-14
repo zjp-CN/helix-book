@@ -17,6 +17,9 @@ a:visited,
 a > .hljs {
     color: var(--links);
 }
+.content a:hover {
+    text-decoration: underline;
+}
 
 /* Menu Bar */
 
@@ -193,7 +196,7 @@ a > .hljs {
     border-radius: 3px;
 }
 
-:not(pre):not(a) > .hljs {
+:not(pre):not(a):not(td):not(p) > .hljs {
     color: var(--inline-code-color);
     overflow-x: initial;
 }
@@ -342,7 +345,6 @@ ul#searchresults span.teaser em {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 10px 10px;
 }
 .sidebar .sidebar-resize-handle {
     position: absolute;
@@ -379,7 +381,7 @@ ul#searchresults span.teaser em {
 .chapter {
     list-style: none outside none;
     padding-left: 0;
-    line-height: 2em;
+    margin: .25rem 0;
 }
 
 .chapter ol {
@@ -388,11 +390,10 @@ ul#searchresults span.teaser em {
 
 .chapter li {
     display: flex;
-    color: var(--sidebar-non-existant);
+    color: var(--sidebar-non-existent);
 }
 .chapter li a {
     display: block;
-    padding: 0;
     text-decoration: none;
     color: var(--sidebar-fg);
 }
@@ -424,8 +425,11 @@ ul#searchresults span.teaser em {
 }
 
 .chapter li.chapter-item {
-    line-height: 1.5em;
-    margin-top: 0.6em;
+    padding: 1rem 1.5rem;
+}
+
+.chapter .section li.chapter-item {
+    padding: .5rem .5rem 0 .5rem;
 }
 
 .chapter li.expanded > a.toggle div {
@@ -448,7 +452,7 @@ ul#searchresults span.teaser em {
 
 .section {
     list-style: none outside none;
-    padding-left: 20px;
+    padding-left: 2rem;
     line-height: 1.5em;
 }
 
