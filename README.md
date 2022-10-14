@@ -1,4 +1,4 @@
-# helix book
+# Helix Book
 
 > Last Check: 5077ce76, [compared with master].
 
