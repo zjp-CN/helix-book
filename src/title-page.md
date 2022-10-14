@@ -1,17 +1,12 @@
-# Helix
 
-Docs for bleeding edge master can be found at
-[https://docs.helix-editor.com/master](https://docs.helix-editor.com/master).
+{{#include ../README.md}}
 
-See the [usage] section for a quick overview of the editor, [keymap]
-section for all available keybindings and the [configuration] section
-for defining custom keybindings, setting themes, etc.
-For everything else (e.g., how to install supported language servers), see the [Helix Wiki].
+查看最新官方文档，请访问 [https://docs.helix-editor.com/master](https://docs.helix-editor.com/master)。
 
-Refer the [FAQ] for common questions.
+- [使用](./usage.md)：Helix 编辑器的快速概述
+- [按键映射](./keymap.md)：所有可用的按键绑定的映射
+- [配置](./configuration.md)：定制按键绑定、设置主题等配置
 
-[FAQ]: https://github.com/helix-editor/helix/wiki/FAQ
-[usage]: ./usage.md
-[keymap]: ./keymap.md
-[configuration]: ./configuration.md
-[Helix Wiki]: https://github.com/helix-editor/helix/wiki
+其他内容（例如，如何安装支持的语言服务器），请参阅 [Helix Wiki](https://github.com/helix-editor/helix/wiki)。
+
+常见问题见 [FAQ](https://github.com/helix-editor/helix/wiki/FAQ)。
