@@ -1,5 +1,5 @@
-# Commands
+# 命令模式
 
-Command mode can be activated by pressing `:`, similar to Vim. Built-in commands:
+与 Vim 类型，按 `:` 进入 command mode。内置的命令有：
 
 {{#include ./generated/typable-cmd.md}}

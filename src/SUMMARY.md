@@ -5,7 +5,7 @@
 - [安装](./install.md)
 - [使用](./usage.md)
   - [按键映射](./keymap.md)
-  - [命令](./commands.md)
+  - [命令模式](./commands.md)
   - [语言支持](./lang-support.md)
 - [从 Vim 迁移](./from-vim.md)
 - [配置](./configuration.md)
