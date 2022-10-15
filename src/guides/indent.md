@@ -1,93 +1,58 @@
-# Adding Indent Queries
+# 添加缩进查询
 
-Helix uses tree-sitter to correctly indent new lines. This requires
-a tree-sitter grammar and an `indent.scm` query file placed in
-`runtime/queries/{language}/indents.scm`. The indentation for a line
-is calculated by traversing the syntax tree from the lowest node at the
-beginning of the new line. Each of these nodes contributes to the total
-indent when it is captured by the query (in what way depends on the name
-of the capture).
+Helix 使用 tree-sitter 来正确缩进新行。这需要一个 tree-sitter 语法和一个 `indent.scm` 查询文件，该文件放在
+`runtime/queries/{language}/indents.scm` 下。
 
-Note that it matters where these added indents begin. For example,
-multiple indent level increases that start on the same line only increase
-the total indent level by 1.
+行的缩进是通过从新行开头的最低节点遍历语法树来计算的。当被查询捕获时，这些节点中的每一个都构成了总缩进（以何种方式取决于捕获的名称）。
 
-## Scopes
+请注意，这些添加的缩进从哪里开始很重要。例如，从同一行开始增加多个缩进级别只会使总缩进级别增加 1。
 
-Added indents don't always apply to the whole node. For example, in most
-cases when a node should be indented, we actually only want everything
-except for its first line to be indented. For this, there are several
-scopes (more scopes may be added in the future if required):
+## 作用域
 
-- `all`:
-This scope applies to the whole captured node. This is only different from
-`tail` when the captured node is the first node on its line.
+添加的缩进并不总是应用于整个节点。例如，在大多数情况下，当一个节点应该缩进时，我们实际上只希望缩进除第一行以外的所有内容。
 
-- `tail`:
-This scope applies to everything except for the first line of the
-captured node.
+为此，存在几个作用域（如果需要，将来可能会添加更多作用域）：
 
-Every capture type has a default scope which should do the right thing
-in most situations. When a different scope is required, this can be
-changed by using a `#set!` declaration anywhere in the pattern:
+* `all`：适用于捕获的整个节点。只有当捕获的节点是这行的第一个节点时，这与 `tail` 不同。
+* `tail`：适用于捕获节点的第一行以外的所有内容。
+
+每种捕获类型都有一个默认作用域，该作用域在大多数情况下都应该是正确的。当需要不同的作用域时，可以在模式中的任何位置使用 `#set!` 声明来更改：
+
 ```scm
 (assignment_expression
   right: (_) @indent
   (#set! "scope" "all"))
 ```
 
-## Capture Types
+## 捕获类型
 
-- `@indent` (default scope `tail`):
-Increase the indent level by 1. Multiple occurrences in the same line
-don't stack. If there is at least one `@indent` and one `@outdent`
-capture on the same line, the indent level isn't changed at all.
+* `@indent`：默认作用域为 `tail`；缩进级别加 1；同一行多次出现时不叠加。如果同一行上至少捕获一个 `@indent`
+  和一个 `@outdent`，则缩进级别根本不会改变。
+* `@outdent`：默认作用域为 `all`；缩进级别减 1，规则与 `@indent` 相同。
+* `@extend`：将该节点的范围扩展到行尾，以及缩进超过该节点所在行的行。这对于像 Python
+  这样的语言很有用，在这种语言中，出于缩进的目的，一些节点（如函数或类）还应该包含紧跟在它们后面的缩进行。
+* `@extend.pre-once`：阻止该节点的祖级节点的第一次扩展。例如，在 Python 中，返回表达式总是结束它所在的块。注意，这只会停止下一次
+  `@extend` 捕获的扩展。如果捕获了多个祖级，则仅阻止最里面的祖级的扩展。所有其他祖级都不受影响（无论最里面的祖先是否实际上已经被扩展）。
 
-- `@outdent` (default scope `all`):
-Decrease the indent level by 1. The same rules as for `@indent` apply.
+## 谓词
 
-- `@extend`:
-Extend the range of this node to the end of the line and to lines that
-are indented more than the line that this node starts on. This is useful
-for languages like Python, where for the purpose of indentation some nodes
-(like functions or classes) should also contain indented lines that follow them.
+在某些情况下，S-表达式不能准确表达应该匹配什么模式。为此，tree-sitter 程序允许谓词 (predicates) 出现在模式中的任何位置，类似于
+`#set!` 声明的工作方式：
 
-- `@extend.prevent-once`:
-Prevents the first extension of an ancestor of this node. For example, in Python
-a return expression always ends the block that it is in. Note that this only stops the
-extension of the next `@extend` capture. If multiple ancestors are captured,
-only the extension of the innermost one is prevented. All other ancestors are unaffected
-(regardless of whether the innermost ancestor would actually have been extended).
-
-
-## Predicates
-
-In some cases, an S-expression cannot express exactly what pattern should be matched.
-For that, tree-sitter allows for predicates to appear anywhere within a pattern,
-similar to how `#set!` declarations work:
 ```scm
 (some_kind
   (child_kind) @indent
   (#predicate? arg1 arg2 ...)
 )
 ```
-The number of arguments depends on the predicate that's used.
-Each argument is either a capture (`@name`) or a string (`"some string"`).
-The following predicates are supported by tree-sitter:
 
-- `#eq?`/`#not-eq?`:
-The first argument (a capture) must/must not be equal to the second argument
-(a capture or a string).
+参数的数量取决于使用的谓词。每个参数要么是一个捕获（如 `@name`），要么是一个字符串（如 `"某个字符串"`）。tree-sitter 支持以下谓词：
 
-- `#match?`/`#not-match?`:
-The first argument (a capture) must/must not match the regex given in the
-second argument (a string).
+* `#eq?`/`#not-eq?`：第一个参数（捕获）必须/不能等于第二个参数（捕获或字符串）。
+* `#match?`/`#not-match?`：第一个参数（捕获）必须/不能与第二个参数（字符串）中给出的正则表达式匹配。
 
-Additionally, we support some custom predicates for indent queries:
+此外，我们还支持一些用于缩进查询的自定义的谓词：
 
-- `#not-kind-eq?`:
-The kind of the first argument (a capture) must not be equal to the second
-argument (a string).
+* `#not-kind-eq?`：第一个参数（捕获）的类型不能等于第二个参数（字符串）。
+* `#same-line?`/`#not-same-line?`：两个参数的捕获必须/不能从同一行开始。
 
-- `#same-line?`/`#not-same-line?`:
-The captures given by the 2 arguments must/must not start on the same line.

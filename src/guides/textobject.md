@@ -1,21 +1,18 @@
-# Adding Textobject Queries
+# 添加文本对象查询
 
-Textobjects that are language specific ([like functions, classes, etc][textobjects])
-require an accompanying tree-sitter grammar and a `textobjects.scm` query file
-to work properly. Tree-sitter allows us to query the source code syntax tree
-and capture specific parts of it. The queries are written in a lisp dialect.
-More information on how to write queries can be found in the [official tree-sitter
-documentation][tree-sitter-queries].
+文本对象 ([textobjects]) 是特定于语言的，比如函数、类等。它需要 tree-sitter 语法和 `textobjects.scm`
+查询文件才能正常工作。 tree-sitter 让我们查询源代码语法树，并捕获特定的部分。
 
-Query files should be placed in `runtime/queries/{language}/textobjects.scm`
-when contributing. Note that to test the query files locally you should put
-them under your local runtime directory (`~/.config/helix/runtime` on Linux
-for example).
+查询 (query) 是以 lisp 方言的方式写的。更多关于如何编写查询的信息可参考官方 tree-sitter [文档][tree-sitter-queries]。
 
-The following [captures][tree-sitter-captures] are recognized:
+贡献时，查询文件应放置于 `runtime/queries/{language}/textobjects.scm`。
 
-| Capture Name       |
-| ---                |
+注意，你应该将它们放置在你本地的运行时目录 （Linux 下为 `~/.config/helix/runtime`） 下来测试查询文件。
+
+会识别以下捕获 ([captures][tree-sitter-captures])：
+
+| 捕获名称           |
+|--------------------|
 | `function.inside`  |
 | `function.around`  |
 | `class.inside`     |
@@ -26,21 +23,18 @@ The following [captures][tree-sitter-captures] are recognized:
 | `comment.inside`   |
 | `comment.around`   |
 
-[Example query files][textobject-examples] can be found in the helix GitHub repository.
+Helix 的 github 仓库下有[示例][textobject-examples]。
 
-## Queries for Textobject Based Navigation
+## 基于导航的文本对象查询
 
-[Tree-sitter based navigation][textobjects-nav] is done using captures in the
-following order:
+[基于 tree-sitter 的导航][textobjects-nav] 使用以下捕获顺序做到：
 
 - `object.movement`
 - `object.around`
 - `object.inside`
 
-For example if a `function.around` capture has been already defined for a language
-in it's `textobjects.scm` file, function navigation should also work automatically.
-`function.movement` should be defined only if the node captured by `function.around`
-doesn't make sense in a navigation context.
+比如如果在某个语言的 `textobjects.scm` 文件中定义了 `function.around` 捕获，那么函数导航应该自动工作。只在
+`function.around` 所捕获的节点不再导航上下文中起作用时，才应该定义 `function.movement`。
 
 [textobjects]: ../usage.md#textobjects
 [textobjects-nav]: ../usage.md#tree-sitter-textobject-based-navigation

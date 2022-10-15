@@ -1,4 +1,3 @@
-# Guides
+# 指南
 
-This section contains guides for adding new language server configurations,
-tree-sitter grammars, textobject queries, etc.
+这部分内容用于指导添加新的语言服务器配置、 tree-sitter 语法和文本对象查询等。
