@@ -11,7 +11,7 @@
 - [配置](./configuration.md)
   - [主题](./themes.md)
   - [重新映射按键](./remapping.md)
-  - [语言](./languages.md)
+  - [语言配置](./languages.md)
 - [指南](./guides/README.md)
   - [添加语言](./guides/adding_languages.md)
   - [添加文本对象查询](./guides/textobject.md)

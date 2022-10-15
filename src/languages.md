@@ -1,17 +1,14 @@
-# Languages
+# 语言 / LSP 配置
 
-Language-specific settings and settings for language servers are configured
-in `languages.toml` files.
+特定的语言设置和语言服务器的设置在 `languages.toml` 文件中进行配置。
 
-## `languages.toml` files
+## `languages.toml` 文件
 
-There are three possible `languages.toml` files. The first is compiled into
-Helix and lives in the [Helix repository](https://github.com/helix-editor/helix/blob/master/languages.toml).
-This provides the default configurations for languages and language servers.
+有三个可能的 `languages.toml` 文件。第一个被编译进 Helix，在 Helix 仓库[可看到][master/languages.toml]。这提供了语言和语言服务器的默认配置。
 
-You may define a `languages.toml` in your [configuration directory](./configuration.md)
-which overrides values from the built-in language configuration. For example
-to disable auto-LSP-formatting in Rust:
+[master/languages.toml]: https://github.com/helix-editor/helix/blob/master/languages.toml
+
+你可以在 [配置目录](./configuration.md) 中定义自己的 `languages.toml`，它会覆盖内置语言配置中的值。例如，禁用 Rust 的自动 LSP 代码格式化：
 
 ```toml
 # in <config_dir>/helix/languages.toml
@@ -21,15 +18,11 @@ name = "rust"
 auto-format = false
 ```
 
-Language configuration may also be overridden local to a project by creating
-a `languages.toml` file under a `.helix` directory. Its settings will be merged
-with the language configuration in the configuration directory and the built-in
-configuration.
+也可以在项目目录的 `.helix` 文件夹下创建 `languages.toml` 文件来覆盖语言配置。其设置将与配置目录中的语言配置和内置配置合并。
 
-## Language configuration
+## 语言配置
 
-Each language is configured by adding a `[[language]]` section to a
-`languages.toml` file. For example:
+每种语言都是通过在 `languages.toml` 文件中添加 `[[Language]]` 来配置的。例如：
 
 ```toml
 [[language]]
@@ -43,41 +36,43 @@ language-server = { command = "mylang-lsp", args = ["--stdio"] }
 formatter = { command = "mylang-formatter" , args = ["--stdin"] }
 ```
 
-These configuration keys are available:
+支持以下配置键：
 
-| Key                   | Description                                                   |
-| ----                  | -----------                                                   |
-| `name`                | The name of the language                                      |
-| `scope`               | A string like `source.js` that identifies the language. Currently, we strive to match the scope names used by popular TextMate grammars and by the Linguist library. Usually `source.<name>` or `text.<name>` in case of markup languages |
-| `injection-regex`     | regex pattern that will be tested against a language name in order to determine whether this language should be used for a potential [language injection][treesitter-language-injection] site. |
-| `file-types`          | The filetypes of the language, for example `["yml", "yaml"]`. Extensions and full file names are supported.  |
-| `shebangs`            | The interpreters from the shebang line, for example `["sh", "bash"]` |
-| `roots`               | A set of marker files to look for when trying to find the workspace root. For example `Cargo.lock`, `yarn.lock` |
-| `auto-format`         | Whether to autoformat this language when saving               |
-| `diagnostic-severity` | Minimal severity of diagnostic for it to be displayed. (Allowed values: `Error`, `Warning`, `Info`, `Hint`) |
-| `comment-token`       | The token to use as a comment-token                           |
-| `indent`              | The indent to use. Has sub keys `tab-width` and `unit`        |
-| `language-server`     | The Language Server to run. See the Language Server configuration section below. |
-| `config`              | Language Server configuration                                 |
-| `grammar`             | The tree-sitter grammar to use (defaults to the value of `name`) |
-| `formatter`           | The formatter for the language, it will take precedence over the lsp when defined. The formatter must be able to take the original file as input from stdin and write the formatted file to stdout |
-| `max-line-length`     | Maximum line length. Used for the `:reflow` command           |
+| 键                    | 描述                                                                                                                                                                  |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`                | 语言的名称                                                                                                                                                            |
+| `scope`               | 像 `source.js` 的字符串，它标识了语言。目前我们尽量把 scope name 匹配常用的 TextMate 语法和 Linguist 库；通常是 `source.<name>` 或 `text.<name>` 形式（以防标记语言） |
+| `injection-regex`     | 针对语言名称进行测试的正则模式，用来确定这个语言是否应该使用 [language injection][treesitter-language-injection]                                                      |
+| `file-types`          | 语言的文件类型，比如 `["yml", "yaml"]`；支持拓展名和完整的文件名                                                                                                      |
+| `shebangs`            | shebang 行的解释器，比如 `["sh", "bash"]`                                                                                                                             |
+| `roots`               | 一组用于搜索标记文件，以找到工作空间的根目录比如 `Cargo.lock`、 `yarn.lock`                                                                                           |
+| `auto-format`         | 是否保存文件是自动格式化                                                                                                                                              |
+| `diagnostic-severity` | 用于显示的最低程度的诊断；允许的值有 `Error`, `Warning`, `Info`, `Hint`                                                                                               |
+| `comment-token`       | 用于注释的标记                                                                                                                                                        |
+| `indent`              | 使用什么样的缩进；子键有 `tab-width` 和 `unit`                                                                                                                        |
+| `language-server`     | 所运行的语言服务器，见下文                                                                                                                                            |
+| `config`              | 语言服务器配置                                                                                                                                                        |
+| `grammar`             | 使用的 tree-sitter 语法；默认为 `name` 的值                                                                                                                           |
+| `formatter`           | 格式化程序，定义之后优先于 lsp 使用；它必须从 stdin 输入源文件，从 stdout 写出成格式化之后的文件                                                                    |
+| `max-line-length`     | 一行的最大长度，用于 `:reflow` 命令                                                                                                                                   |
 
-### Language Server configuration
+[treesitter-language-injection]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting#language-injection
 
-The `language-server` field takes the following keys:
+### 语言服务器配置
 
-| Key           | Description                                                           |
-| ---           | -----------                                                           |
-| `command`     | The name of the language server binary to execute. Binaries must be in `$PATH` |
-| `args`        | A list of arguments to pass to the language server binary             |
-| `timeout`     | The maximum time a request to the language server may take, in seconds. Defaults to `20` |
-| `language-id` | The language name to pass to the language server. Some language servers support multiple languages and use this field to determine which one is being served in a buffer |
+`language-server` 键采用以下键：
 
-The top-level `config` field is used to configure the LSP initialization options. A `format`
-sub-table within `config` can be used to pass extra formatting options to
-[Document Formatting Requests](https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-16.md#document-formatting-request--leftwards_arrow_with_hook).
-For example with typescript:
+| 按键          | 描述                                                                                               |
+|---------------|----------------------------------------------------------------------------------------------------|
+| `command`     | 要执行的语言服务器二进制文件的名称，二进制文件必须位于 `$PATH`                                     |
+| `args`        | 传递给语言服务器二进制文件的参数列表                                                               |
+| `timeout`     | 向语言服务器发出请求可能需要的最长时间，以秒为单位，默认为 20                                      |
+| `language-id` | 传递给语言服务器的语言名称：某些语言服务器支持多种语言，并使用此字段来确定缓冲区中提供的是哪种语言 |
+
+顶级 `config` 键用于配置 LSP 初始化选项。 `config` 中的 `format` 子表用于将额外的格式化选项传递给
+[文档格式化请求][Document Formatting Requests]。例如，对于 typescript：
+
+[Document Formatting Requests]: https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-16.md#document-formatting-request--leftwards_arrow_with_hook
 
 ```toml
 [[language]]
@@ -87,10 +82,9 @@ auto-format = true
 config = { format = { "semicolons" = "insert", "insertSpaceBeforeFunctionParenthesis" = true } }
 ```
 
-## Tree-sitter grammar configuration
+## Tree-sitter 语法配置
 
-The source for a language's tree-sitter grammar is specified in a `[[grammar]]`
-section in `languages.toml`. For example:
+语言的 tree-sitter 语法来源在 `languages.toml` 中的 `[[grammar]]` 中指定。例如：
 
 ```toml
 [[grammar]]
@@ -98,26 +92,24 @@ name = "mylang"
 source = { git = "https://github.com/example/mylang", rev = "a250c4582510ff34767ec3b7dcdd3c24e8c8aa68" }
 ```
 
-Grammar configuration takes these keys:
+语法配置采用以下键：
 
-| Key      | Description                                                              |
-| ---      | -----------                                                              |
-| `name`   | The name of the tree-sitter grammar                                      |
-| `source` | The method of fetching the grammar - a table with a schema defined below |
+| 键       | 描述                                     |
+|----------|------------------------------------------|
+| `name`   | tree-sitter 语法的名字                   |
+| `source` | 获取语法的方法，一个具有下面定义模式的表 |
 
-Where `source` is a table with either these keys when using a grammar from a
-git repository:
+其中，`source` 是来自 git 语法仓库的表：
 
-| Key    | Description                                               |
-| ---    | -----------                                               |
-| `git`  | A git remote URL from which the grammar should be cloned  |
-| `rev`  | The revision (commit hash or tag) which should be fetched |
-| `subpath` | A path within the grammar directory which should be built. Some grammar repositories host multiple grammars (for example `tree-sitter-typescript` and `tree-sitter-ocaml`) in subdirectories. This key is used to point `hx --grammar build` to the correct path for compilation. When omitted, the root of repository is used |
+| 键        | Description	描述                                                                                                                                                                    |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `git`     | 克隆语法的远程 git URL                                                                                                                                                              |
+| `rev`     | 获取的修订（commit hash 或 tag）                                                                                                                                                    |
+| `subpath` | 语法目录中应构建的路径。一些语法库托管多个语法，例如 `tree-sitter-typescript` 和 `tree-sitter-ocaml` 子目录。此键用于指向 `hx --grammar build` 编译到正确的路径；省略时，使用根目录 |
 
-### Choosing grammars
+### 选择语法
 
-You may use a top-level `use-grammars` key to control which grammars are
-fetched and built when using `hx --grammar fetch` and `hx --grammar build`.
+在使用 `hx --grammar fetch` 和` hx --grammar build` 时，你可以使用顶级的 `use-grammars` 键来控制获取和构建哪些语法。
 
 ```toml
 # Note: this key must come **before** the [[language]] and [[grammar]] sections
@@ -126,6 +118,4 @@ use-grammars = { only = [ "rust", "c", "cpp" ] }
 use-grammars = { except = [ "yaml", "json" ] }
 ```
 
-When omitted, all grammars are fetched and built.
-
-[treesitter-language-injection]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting#language-injection
+如果省略，则获取并构建所有语法。
