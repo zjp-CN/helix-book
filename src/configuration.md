@@ -1,13 +1,13 @@
-# Configuration
+# 配置
 
-To override global configuration parameters, create a `config.toml` file located in your config directory:
+要覆盖全局配置参数，请在你的配置目录中创建一个 `config.toml` 文件：
 
-* Linux and Mac: `~/.config/helix/config.toml`
+* Linux 和 Mac: `~/.config/helix/config.toml`
 * Windows: `%AppData%\helix\config.toml`
 
-> Hint: You can easily open the config file by typing `:config-open` within Helix normal mode.
+> 提示：在 Helix 正常模式下输入 `:config-open` 即可轻松打开配置文件。
 
-Example config:
+示例配置：
 
 ```toml
 theme = "onedark"
@@ -25,47 +25,45 @@ select = "underline"
 hidden = false
 ```
 
-You may also specify a file to use for configuration with the `-c` or
-`--config` CLI argument: `hx -c path/to/custom-config.toml`.
+你也可以使用 `-c` 或 `--config` 命令行参数指定配置文件的路径：`hx -c path/to/custom-config.toml`。
 
-It is also possible to trigger configuration file reloading by sending the `USR1`
-signal to the helix process, e.g. via `pkill -USR1 hx`. This is only supported 
-on unix operating systems.
+还可以通过向 Helix 进程发送 `USR1` 信号来触发配置文件重新加载，例如 `pkill -USR1 hx`。这仅在 Unix 操作系统上支持。
 
-## Editor
+> 译者注：在已打开的 Helix 中可以使用 `:set`（或 `:set-option`）设置本页面罗列的键的值，如
+> `:set line-number relative`、`:set lsp.display-messages true`。当你按 `:set <Tab>` 和输入命令的过程中，会弹出可配置的键。
 
-### `[editor]` Section
+## editor 及其子表
 
-| Key | Description | Default |
-|--|--|---------|
-| `scrolloff` | Number of lines of padding around the edge of the screen when scrolling. | `5` |
-| `mouse` | Enable mouse mode. | `true` |
-| `middle-click-paste` | Middle click paste support. | `true` |
-| `scroll-lines` | Number of lines to scroll per scroll wheel step. | `3` |
-| `shell` | Shell to use when running external commands. | Unix: `["sh", "-c"]`<br/>Windows: `["cmd", "/C"]` |
-| `line-number` | Line number display: `absolute` simply shows each line's number, while `relative` shows the distance from the current line. When unfocused or in insert mode, `relative` will still show absolute line numbers. | `absolute` |
-| `cursorline` | Highlight all lines with a cursor. | `false` |
-| `cursorcolumn` | Highlight all columns with a cursor. | `false` |
-| `gutters` | Gutters to display: Available are `diagnostics` and `line-numbers` and `spacer`, note that `diagnostics` also includes other features like breakpoints, 1-width padding will be inserted if gutters is non-empty | `["diagnostics", "line-numbers"]` |
-| `auto-completion` | Enable automatic pop up of auto-completion. | `true` |
-| `auto-format` | Enable automatic formatting on save. | `true` |
-| `idle-timeout` | Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant. | `400` |
-| `completion-trigger-len` | The min-length of word under cursor to trigger autocompletion | `2` |
-| `auto-info` | Whether to display infoboxes | `true` |
-| `true-color` | Set to `true` to override automatic detection of terminal truecolor support in the event of a false negative. | `false` |
-| `rulers` | List of column positions at which to display the rulers. Can be overridden by language specific `rulers` in `languages.toml` file. | `[]` |
-| `bufferline` | Renders a line at the top of the editor displaying open buffers. Can be `always`, `never` or `multiple` (only shown if more than one buffer is in use) | `never` |
-| `color-modes` | Whether to color the mode indicator with different colors depending on the mode itself | `false` |
+### `[editor]`
 
-### `[editor.statusline]` Section
+| 键                       | 描述                                                                                                                                    | 默认值                                            |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| `scrolloff`              | 滚动时屏幕边缘周围的填充行数                                                                                                            | `5`                                               |
+| `mouse`                  | 启用鼠标模式                                                                                                                            | `true`                                            |
+| `middle-click-paste`     | 启用中键单击粘贴                                                                                                                        | `true`                                            |
+| `scroll-lines`           | 每次滚轮所滚动的行数                                                                                                                    | `3`                                               |
+| `shell`                  | 运行外部命令时使用的 shell 程序                                                                                                         | Unix: `["sh", "-c"]`<br/>Windows: `["cmd", "/C"]` |
+| `line-number`            | 显示行号：`absolute` 每行的编号，`relative` 离当前行的距离。未聚焦或处于 insert mode 时，`relative` 仍显示绝对行号                      | `absolute`                                        |
+| `cursorline`             | 高亮光标所在行                                                                                                                          | `false`                                           |
+| `cursorcolumn`           | 高亮光标所在列                                                                                                                          | `false`                                           |
+| `gutters`                | 侧条显示的内容：可选值有 `diagnostics`、`line-numbers`、`spacer`。注意 `diagnostics` 包含其他功能，比如断点。如果为空，则填充一个宽度。 | `["diagnostics", "line-numbers"]`                 |
+| `auto-completion`        | 自动补全时自动 pop up                                                                                                                   | `true`                                            |
+| `auto-format`            | 保存时自动格式化                                                                                                                        | `true`                                            |
+| `idle-timeout`           | 自上次按键后空闲计时器触发前的时间，以毫秒为单位。用于自动补全，设置为 0 表示即时补全。                                                 | `400`                                             |
+| `completion-trigger-len` | 光标下触发自动补全的最小单词长度                                                                                                        | `2`                                               |
+| `auto-info`              | 是否显示信息框                                                                                                                          | `true`                                            |
+| `true-color`             | 在未能检测到终端真彩色时，设置此项为 `true` 来表明使用真彩色                                                                            | `false`                                           |
+| `rulers`                 | 显示标尺的列位置列表。可以在 `languages.toml` 中使用特定语言的 `rulers` 键覆盖这里的设置。                                              | `[]`                                              |
+| `bufferline`             | 在编辑器顶部显示一行显示已打开的缓冲区，可以是 `always`、`never` 或 `multiple`（只在超过一个缓冲区存在时显式）                          | `never`                                           |
+| `color-modes`            | 根据模式本身用不同的颜色给模式指示器上色                                                                                                | `false`                                           |
 
-Allows configuring the statusline at the bottom of the editor.
+### `[editor.statusline]`
 
-The configuration distinguishes between three areas of the status line:
+配置在编辑器底部的状态栏。状态栏分成三个区域：
 
 `[ ... ... LEFT ... ... | ... ... ... ... CENTER ... ... ... ... | ... ... RIGHT ... ... ]`
 
-Statusline elements can be defined as follows:
+状态栏元素可以按如下方式定义：
 
 ```toml
 [editor.statusline]
@@ -77,96 +75,91 @@ mode.normal = "NORMAL"
 mode.insert = "INSERT"
 mode.select = "SELECT"
 ```
-The `[editor.statusline]` key takes the following sub-keys:
 
-| Key           | Description | Default |
-| ---           | ---         | ---     |
-| `left`        | A list of elements aligned to the left of the statusline | `["mode", "spinner", "file-name"]` |
-| `center`      | A list of elements aligned to the middle of the statusline | `[]` |
-| `right`       | A list of elements aligned to the right of the statusline | `["diagnostics", "selections", "position", "file-encoding"]` |
-| `separator`   | The character used to separate elements in the statusline | `"│"` |
-| `mode.normal` | The text shown in the `mode` element for normal mode | `"NOR"` |
-| `mode.insert` | The text shown in the `mode` element for insert mode | `"INS"` |
-| `mode.select` | The text shown in the `mode` element for select mode | `"SEL"` |
+`[editor.statusline]` 的子键如下：
 
-The following statusline elements can be configured:
+| 键            | 描述                     | 默认值                                                       |
+|---------------|--------------------------|--------------------------------------------------------------|
+| `left`        | 左端对齐的列表           | `["mode", "spinner", "file-name"]`                           |
+| `center`      | 中间对齐的列表           | `[]`                                                         |
+| `right`       | 右端对齐的列表           | `["diagnostics", "selections", "position", "file-encoding"]` |
+| `separator`   | 分隔元素的字符           | `"│"`                                                        |
+| `mode.normal` | normal mode 下显示的文字 | `"NOR"`                                                      |
+| `mode.insert` | insert mode 下显示的文字 | `"INS"`                                                      |
+| `mode.select` | select mode 下显示的文字 | `"SEL"`                                                      |
 
-| Key    | Description |
-| ------ | ----------- |
-| `mode` | The current editor mode (`mode.normal`/`mode.insert`/`mode.select`) |
-| `spinner` | A progress spinner indicating LSP activity |
-| `file-name` | The path/name of the opened file |
-| `file-encoding` | The encoding of the opened file if it differs from UTF-8 |
-| `file-line-ending` | The file line endings (CRLF or LF) |
-| `total-line-numbers` | The total line numbers of the opened file |
-| `file-type` | The type of the opened file |
-| `diagnostics` | The number of warnings and/or errors |
-| `selections` | The number of active selections |
-| `position` | The cursor position |
-| `position-percentage` | The cursor position as a percentage of the total number of lines |
-| `separator` | The string defined in `editor.statusline.separator` (defaults to `"│"`) |
-| `spacer` | Inserts a space between elements (multiple/contiguous spacers may be specified) |
+可配置以下元素：
 
-### `[editor.lsp]` Section
+| 元素                  | 描述                                                        |
+|-----------------------|-------------------------------------------------------------|
+| `mode`                | 当前模式 `mode.normal`、`mode.insert`、`mode.select`        |
+| `spinner`             | LSP 活动进度指示                                            |
+| `file-name`           | 文件路径或名称                                              |
+| `file-encoding`       | 如果不是 UTF-8 编码，则显示文件编码                         |
+| `file-line-ending`    | 换行符 CRLF 或 LF                                           |
+| `total-line-numbers`  | 总行数                                                      |
+| `file-type`           | 文件类型                                                    |
+| `diagnostics`         | warnings 和/或 errors 的数量                                |
+| `selections`          | 活动选区的数量                                              |
+| `position`            | 光标位置                                                    |
+| `position-percentage` | 光标位置占总行数的百分比                                    |
+| `separator`           | 定义在 `editor.statusline.separator` 的字符串，默认为 `│`   |
+| `spacer`              | 在元素之间插入空格，可以指定多个/连续的空格                 |
 
-| Key                   | Description                                                 | Default |
-| ---                   | -----------                                                 | ------- |
-| `display-messages`    | Display LSP progress messages below statusline[^1]          | `false` |
-| `auto-signature-help` | Enable automatic popup of signature help (parameter hints)  | `true`  |
-| `display-signature-help-docs` | Display docs under signature help popup             | `true`  |
+### `[editor.lsp]`
 
-[^1]: By default, a progress spinner is shown in the statusline beside the file path.
+| 键                            | 描述                                                   | 默认值  |
+|-------------------------------|--------------------------------------------------------|---------|
+| `display-messages`            | 在 statusline 下方显示 LSP 进度消息[^display-messages] | `false` |
+| `auto-signature-help`         | 自动弹出签名帮助（和参数提示）                         | `true`  |
+| `display-signature-help-docs` | 在签名帮助弹出菜单中显示文档                           | `true`  |
 
-### `[editor.cursor-shape]` Section
+[^display-messages]: 默认情况下，进度旋钮显示在文件路径旁边的 statusline 中。
 
-Defines the shape of cursor in each mode. Note that due to limitations
-of the terminal environment, only the primary cursor can change shape.
-Valid values for these options are `block`, `bar`, `underline`, or `hidden`.
+### `[editor.cursor-shape]`
 
-| Key      | Description                                | Default |
-| ---      | -----------                                | ------- |
-| `normal` | Cursor shape in [normal mode][normal mode] | `block` |
-| `insert` | Cursor shape in [insert mode][insert mode] | `block` |
-| `select` | Cursor shape in [select mode][select mode] | `block` |
+定义每种模式下光标的形状。注意，由于终端环境的限制，只有主光标可以更改形状。这些选项的有效值为
+`block`、`bar`、`underline` 或 `hidden`。
+
+| 键       | 描述                       | 默认值  |
+|----------|----------------------------|---------|
+| `normal` | [normal mode] 下的光标形状 | `block` |
+| `insert` | [insert mode] 下的光标形状 | `block` |
+| `select` | [select mode] 下的光标形状 | `block` |
 
 [normal mode]: ./keymap.md#normal-mode
 [insert mode]: ./keymap.md#insert-mode
 [select mode]: ./keymap.md#select--extend-mode
 
-### `[editor.file-picker]` Section
+### `[editor.file-picker]`
 
-Sets options for file picker and global search. All but the last key listed in
-the default file-picker configuration below are IgnoreOptions: whether hidden
-files and files listed within ignore files are ignored by (not visible in) the
-helix file picker and global search. There is also one other key, `max-depth`
-available, which is not defined by default.
+设置文件选取器和全局搜索的选项。下面列出的默认文件选取器配置中，除了最后一个键之外，所有键都具有 IgnoreOptions：
+Helix 文件选取器和全局搜索是否无视隐藏文件和 ignore 文件中列出的文件。还有一个尚未定义的键 `max-depth`。
 
-All git related options are only enabled in a git repository.
+所有与 git 相关的选项仅在 git 存储库中启用。
 
-| Key | Description | Default |
-|--|--|---------|
-|`hidden` | Enables ignoring hidden files. | true
-|`parents` | Enables reading ignore files from parent directories. | true
-|`ignore` | Enables reading `.ignore` files. | true
-|`git-ignore` | Enables reading `.gitignore` files. | true
-|`git-global` | Enables reading global .gitignore, whose path is specified in git's config: `core.excludefile` option. | true
-|`git-exclude` | Enables reading `.git/info/exclude` files. | true
-|`max-depth` | Set with an integer value for maximum depth to recurse. | Defaults to `None`.
+| 键            | 描述                                            | 默认值 |
+|---------------|-------------------------------------------------|--------|
+| `hidden`      | 忽略隐藏文件                                    | `true` |
+| `parents`     | 父目录读取 ignored 文件                         | `true` |
+| `ignore`      | 读取 `.ignore`                                  | `true` |
+| `git-ignore`  | 读取 `.gitignore`                               | `true` |
+| `git-global`  | 读取全局 `.gitignore`，其路径由 git config 指定 | `true` |
+| `git-exclude` | 读取 `.git/info/exclude` 文件                   | `true` |
+| `max-depth`   | 为递归的最大深度设置一个整数值                  | `None` |
 
-### `[editor.auto-pairs]` Section
+### `[editor.auto-pairs]`
 
-Enables automatic insertion of pairs to parentheses, brackets, etc. Can be a
-simple boolean value, or a specific mapping of pairs of single characters.
+启用自动插入配对符号，如圆括号、方括号等。可以是简单的布尔值，也可以是单字符配对映射。
 
-To disable auto-pairs altogether, set `auto-pairs` to `false`:
+要完全关闭自动配对，将 `auto-pairs` 设置为 `false`：
 
 ```toml
 [editor]
 auto-pairs = false # defaults to `true`
 ```
 
-The default pairs are <code>(){}[]''""``</code>, but these can be customized by
-setting `auto-pairs` to a TOML table:
+默认配对为 <code>(){}\[\]''""``</code>，但可以通过将 `auto-pairs` 设置为 TOML 表进行自定义：
 
 ```toml
 [editor.auto-pairs]
@@ -178,11 +171,9 @@ setting `auto-pairs` to a TOML table:
 '<' = '>'
 ```
 
-Additionally, this setting can be used in a language config. Unless
-the editor setting is `false`, this will override the editor config in
-documents with this language.
+此外，此设置可在语言配置中使用。除非编辑器设置为 `false`，否则语言配置将覆盖 editor 配置。
 
-Example `languages.toml` that adds <> and removes ''
+添加 `<>` 和删除 `''` 的示例，在 `languages.toml` 中：
 
 ```toml
 [[language]]
@@ -197,25 +188,26 @@ name = "rust"
 '<' = '>'
 ```
 
-### `[editor.search]` Section
+### `[editor.search]`
 
-Search specific options.
+搜索选项。
 
-| Key | Description | Default |
-|--|--|---------|
-| `smart-case` | Enable smart case regex searching (case insensitive unless pattern contains upper case characters) | `true` |
-| `wrap-around`| Whether the search should wrap after depleting the matches | `true` |
 
-### `[editor.whitespace]` Section
+| 键            | 描述                                                           | 默认值 |
+|---------------|----------------------------------------------------------------|--------|
+| `smart-case`  | 正则表达式启用智能大小写：除非包含大写字符，否则对大小写不敏感 | `true` |
+| `wrap-around` | 匹配达到最后一个之后是否回到第一个                             | `true` |
 
-Options for rendering whitespace with visible characters. Use `:set whitespace.render all` to temporarily enable visible whitespace.
+### `[editor.whitespace]`
 
-| Key | Description | Default |
-|-----|-------------|---------|
-| `render` | Whether to render whitespace. May either be `"all"` or `"none"`, or a table with sub-keys `space`, `tab`, and `newline`. | `"none"` |
-| `characters` | Literal characters to use when rendering whitespace. Sub-keys may be any of `tab`, `space`, `nbsp`, `newline` or `tabpad` | See example below |
+通过可见字符渲染空格。使用 `:set whitespace.render all` 可临时开启可见空格。
 
-Example
+| 键           | 描述                                                                                      | 默认值       |
+|--------------|-------------------------------------------------------------------------------------------|--------------|
+| `render`     | 是否渲染空格，要么是 `all` 或 `none`，要么是带子键的表，子键有 `space`、`tab`、`newline`. | `none`       |
+| `characters` | 渲染空格的字符；子键为 `tab`、`space`、`nbsp`、`newline`、`tabpad` 之一                   | 见下面的例子 |
+
+示例：
 
 ```toml
 [editor.whitespace]
@@ -234,17 +226,17 @@ newline = "⏎"
 tabpad = "·" # Tabs will look like "→···" (depending on tab width)
 ```
 
-### `[editor.indent-guides]` Section
+### `[editor.indent-guides]`
 
-Options for rendering vertical indent guides.
+渲染垂直缩进辅助线。
 
-| Key           | Description                                             | Default |
-| ---           | ---                                                     | ---     |
-| `render`      | Whether to render indent guides.                        | `false` |
-| `character`   | Literal character to use for rendering the indent guide | `│`     |
-| `skip-levels` | Number of indent levels to skip                         | `0`     |
+| 键            | 描述               | 默认值  |
+|---------------|--------------------|---------|
+| `render`      | 是否渲染缩进辅助线 | `false` |
+| `character`   | 渲染辅助线的字符   | `│`     |
+| `skip-levels` | 跳过的缩进级别数   | `0`     |
 
-Example:
+示例：
 
 ```toml
 [editor.indent-guides]
