@@ -4,7 +4,7 @@
 
 ## 创建主题
 
-创建一个以你的主题名称为文件名的文件，即 `mytheme.toml`，并将其放置在你的 `themes` 目录下（即 `~/.config/helix/hemes`）。该目录可能必须事先创建。
+创建一个以你的主题名称为文件名的文件，即 `mytheme.toml`，并将其放置在你的 `themes` 目录下（即 `~/.config/helix/themes`）。该目录可能必须事先创建。
 
 `default` 和 `base16_default` 是为内置主题保留的，不能被用户定义的主题覆盖。
 
