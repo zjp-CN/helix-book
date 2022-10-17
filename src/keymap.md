@@ -20,7 +20,7 @@
 | `b`                  | 移动到上一个 word 开头                | `move_prev_word_start`      |
 | `e`                  | 移动到下一个 word 结尾                | `move_next_word_end`        |
 | `W`                  | 移动到下一个 WORD 开头                | `move_next_long_word_start` |
-| `B`                  | 移动到上一个 WORD 结尾                | `move_prev_long_word_start` |
+| `B`                  | 移动到上一个 WORD 开头                | `move_prev_long_word_start` |
 | `E`                  | 移动到下一个 WORD 结尾                | `move_next_long_word_end`   |
 | `t`                  | 找到下个字符之前                      | `find_till_char`            |
 | `f`                  | 找到下个字符                          | `find_next_char`            |
