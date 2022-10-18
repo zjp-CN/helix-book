@@ -53,6 +53,8 @@ sudo xbps-install helix
 git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term
+# 译者注：除非你开发 tree-sitter，否则建议源码安装时使用环境变量 `HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1` 来避免构建 tree-sitter
+# HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1 cargo install --path helix-term
 ```
 
 这会将 `hx` 二进制文件安装到 `$HOME/.cargo/bin`。
@@ -98,12 +100,13 @@ hx --health
 
 ### 构建 tree-sitter 语法
 
-如果没有预先打包 tree-sitter 语法工具[^tree-sitter]，则必须获取和和编译它。
+如果没有预先打包 tree-sitter 语法工具，则必须获取和和编译它。[^tree-sitter]
 
 使用 `hx --grammar fetch`（需要 `git`）获取语法，并使用 `hx --grammar build`（需要 C++ 编译器）编译它们。
 
-[^tree-sitter]: 译者注：除非你开发 tree-sitter，否则建议你从 github 的发布页面下载预编译的包，然后从中取出 `runtime/`
-文件夹，来避免构建 tree-sitter。此外，当源码构建 Helix 时，使用环境变量 `HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1` 来避免构建 tree-sitter。
+[^tree-sitter]: 译者注：`runtime/grammars`（里面是静态库等文件，全部语言加起来占几百M） 和
+`runtime/queries` （里面是 scm 文件） 用于语法高亮、textobject、自动缩进等功能，没有它们，你的代码文件只有
+LSP 功能，而且看起来是纯文本，见[此处讨论](https://github.com/helix-editor/helix/discussions/4345)。
 
 ### 安装语言服务器
 
