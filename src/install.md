@@ -53,8 +53,11 @@ sudo xbps-install helix
 git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term
-# 译者注：除非你开发 tree-sitter，否则建议源码安装时使用环境变量 `HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1` 来避免构建 tree-sitter
+
+# 译者注：除非你开发 tree-sitter，否则建议源码安装时使用环境变量
+# `HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1` 不在编译 hx 的同时构建 tree-sitter，以便快速安装上 hx
 # HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1 cargo install --path helix-term
+# 安装 hx 成功之后使用 `hx --grammar fetch` 和 `hx --grammar build` 专门构建 tree-sitter
 ```
 
 这会将 `hx` 二进制文件安装到 `$HOME/.cargo/bin`。
