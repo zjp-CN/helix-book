@@ -154,7 +154,7 @@ forward：选区往下/往前/正向
 | `/`  | 文本正方向正则搜索                       | `search`           |
 | `?`  | 文本反方向正则搜索                       | `rsearch`          |
 | `n`  | 选择下一个匹配到的搜索内容（选区会增加） | `search_next`      |
-| `N`  | 选择下一个匹配到的搜索内容（选区会增加） | `search_prev`      |
+| `N`  | 选择上一个匹配到的搜索内容（选区会增加） | `search_prev`      |
 | `*`  | 使用当前选中的文本作为搜索模式           | `search_selection` |
 
 ### Minor modes
